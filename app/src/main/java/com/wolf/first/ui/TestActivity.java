@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.ToastUtils;
 import com.wolf.first.R;
 import com.wolf.first.base.BaseActivity;
 import com.wolf.first.ui.contract.TestContract;
@@ -51,7 +52,7 @@ public class TestActivity extends BaseActivity<TestPresenter, TestModel> impleme
 
     @Override
     public void onSuccess(String msg) {
-        Toast.makeText(TestActivity.this, msg, Toast.LENGTH_LONG).show();
+        ToastUtils.showLong(msg);
     }
 
     @Override

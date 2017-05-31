@@ -3,7 +3,7 @@ package com.wolf.first.util;
 import java.lang.reflect.ParameterizedType;
 
 /**
- * 类转换初始化
+ * 泛型实例化工具类 (MVP模式)
  */
 public class TUtil {
     public static <T> T getT(Object o, int i) {
