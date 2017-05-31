@@ -1,9 +1,13 @@
 package com.wolf.first.ui.presenter;
 
+import android.util.Log;
+
 import com.blankj.utilcode.util.NetworkUtils;
+import com.socks.library.KLog;
 import com.wolf.first.api.ResultObserver;
 import com.wolf.first.bean.TestBean;
 import com.wolf.first.ui.contract.TestContract;
+import com.wolf.first.util.MyLog;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -17,7 +21,6 @@ public class TestPresenter extends TestContract.Presenter {
     @Override
     public void getNews() {
         mModel.getNews().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new ResultObserver<TestBean>(mView) {
-
 
             @Override
             public void onSubscribe(Disposable d) {
@@ -33,6 +36,7 @@ public class TestPresenter extends TestContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 super.onError(e);
+
             }
 
             @Override

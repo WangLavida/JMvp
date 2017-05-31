@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.blankj.utilcode.util.NetworkUtils;
 import com.wolf.first.app.MainApplication;
+import com.wolf.first.util.MyLog;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,10 +78,10 @@ public class Api {
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         httpClientBuilder.writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
         httpClientBuilder.readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
-        httpClientBuilder.addInterceptor(logInterceptor);
-        httpClientBuilder.addInterceptor(cacheInterceptor);
-        httpClientBuilder.addNetworkInterceptor(cacheInterceptor);
 
+//        httpClientBuilder.addInterceptor(cacheInterceptor);
+        httpClientBuilder.addNetworkInterceptor(cacheInterceptor);
+        httpClientBuilder.addInterceptor(logInterceptor);
         //设置缓存
         Cache cache = new Cache(new File(MainApplication.getContext().getCacheDir(), "HttpCache"),
                 1024 * 1024 * 100);
@@ -100,10 +101,10 @@ public class Api {
             if (request.body() != null) {
                 request.body().writeTo(requestBuffer);
             } else {
-                Log.i("消息体", "request.body() == null");
+//                Log.i("消息体", "request.body() == null");
             }
             //打印url信息
-            Log.i("请求Url", request.url() + (request.body() != null ? "?" + parseParams(request.body(), requestBuffer) : ""));
+//            Log.i("请求Url", request.url() + (request.body() != null ? "?" + parseParams(request.body(), requestBuffer) : ""));
             final Response response = chain.proceed(request);
             return response;
         }
@@ -118,10 +119,12 @@ public class Api {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
+            MyLog.i("请求地址", request.url().toString());
             if (!NetworkUtils.isConnected()) {
                 request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
                 Log.i("无网络", "no network");
             }
+
             Response originalResponse = chain.proceed(request);
 
             if (NetworkUtils.isConnected()) {
