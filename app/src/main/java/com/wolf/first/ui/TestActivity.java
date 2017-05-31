@@ -53,6 +53,7 @@ public class TestActivity extends BaseActivity<TestPresenter, TestModel> impleme
     @Override
     public void onSuccess(String msg) {
         ToastUtils.showLong(msg);
+        test.setText(msg);
     }
 
     @Override

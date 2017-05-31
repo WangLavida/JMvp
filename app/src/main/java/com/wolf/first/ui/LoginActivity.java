@@ -71,6 +71,6 @@ public class LoginActivity extends BaseActivity {
         } else {
             pwdInput.setError("");
         }
-        TestActivity.startTest(LoginActivity.this);
+        MenuActivity.startTest(LoginActivity.this);
     }
 }
