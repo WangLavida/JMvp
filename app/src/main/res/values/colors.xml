@@ -6,4 +6,5 @@
     <color name="textColorPrimary">#FFFFFF</color>
     <color name="navigationBarColor">#4DAF7C</color>
     <color name="colorWhite">#ffffff</color>
+    <color name="commonColor">#454E4F</color>
 </resources>
