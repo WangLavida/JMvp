@@ -17,7 +17,6 @@ public interface TestContract {
 
         void onLoad();
 
-
         void onError(String msg);
     }
 
