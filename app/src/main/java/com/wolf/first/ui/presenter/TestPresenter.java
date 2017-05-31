@@ -1,5 +1,6 @@
 package com.wolf.first.ui.presenter;
 
+import com.blankj.utilcode.util.NetworkUtils;
 import com.wolf.first.api.ResultObserver;
 import com.wolf.first.bean.TestBean;
 import com.wolf.first.ui.contract.TestContract;
@@ -12,10 +13,12 @@ import io.reactivex.schedulers.Schedulers;
  * Created by W.J on 2017/5/31.
  */
 
-public class TestPresenter extends TestContract.Presenter{
+public class TestPresenter extends TestContract.Presenter {
     @Override
     public void getNews() {
-        mModel.getNews().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new ResultObserver<TestBean>(){
+        mModel.getNews().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new ResultObserver<TestBean>(mView) {
+
+
             @Override
             public void onSubscribe(Disposable d) {
                 super.onSubscribe(d);

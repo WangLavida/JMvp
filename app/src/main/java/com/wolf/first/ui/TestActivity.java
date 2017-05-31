@@ -62,7 +62,7 @@ public class TestActivity extends BaseActivity<TestPresenter, TestModel> impleme
 
     @Override
     public void onError(String msg) {
-
+         ToastUtils.showLong(msg);
     }
 
     @OnClick(R.id.test)

@@ -9,12 +9,14 @@ import android.widget.TextView;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.wolf.first.R;
+import com.wolf.first.base.BaseActivity;
+import com.wolf.first.base.BaseView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity {
 
 
     @Bind(R.id.name_edit)
@@ -29,10 +31,28 @@ public class LoginActivity extends AppCompatActivity {
     TextView loginText;
 
     @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
+    @Override
+    public void initPresenter() {
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
 
     }
 

@@ -13,11 +13,7 @@ import io.reactivex.Observable;
 
 public interface TestContract {
     interface View extends BaseView {
-        void onSuccess(String msg);
 
-        void onLoad();
-
-        void onError(String msg);
     }
 
     interface Model extends BaseModel {
