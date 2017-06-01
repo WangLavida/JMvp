@@ -29,6 +29,7 @@ public class MainApplication extends Application {
      */
     private void createFile() {
         FileUtils.createOrExistsDir(Constant.LOG_File);
+        FileUtils.createOrExistsDir(Constant.HEADER_File);
         FileUtils.createOrExistsFile(Constant.LOG_File + Constant.LOG_NAME);
     }
 

@@ -10,5 +10,6 @@ import java.io.File;
 
 public class Constant {
     public static String LOG_File = Environment.getExternalStorageDirectory()+"/first/log/";
+    public static String HEADER_File = Environment.getExternalStorageDirectory()+"/first/header/";
     public static String LOG_NAME = "log.txt";
 }

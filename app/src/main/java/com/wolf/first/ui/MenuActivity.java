@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.wolf.first.R;
 import com.wolf.first.base.BaseActivity;
+import com.wolf.first.util.MyLog;
+import com.wolf.first.util.PhotoUtil;
 
 import butterknife.Bind;
 
@@ -30,6 +32,7 @@ public class MenuActivity extends BaseActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private View headerView;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_menu;
@@ -41,10 +44,17 @@ public class MenuActivity extends BaseActivity {
         headerView = navigationView.getHeaderView(0);
         ImageView headerImage = (ImageView) headerView.findViewById(R.id.header_image);
         TextView nameText = (TextView) headerView.findViewById(R.id.name_text);
+        headerImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PhotoUtil.selPhoto(MenuActivity.this);
+
+            }
+        });
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.set:
                         break;
                     case R.id.about:
@@ -90,10 +100,13 @@ public class MenuActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //调用裁剪
     }
 
     public static void startTest(Activity activity) {
         Intent intent = new Intent(activity, MenuActivity.class);
         activity.startActivity(intent);
     }
+
+
 }
