@@ -2,11 +2,17 @@ package com.wolf.first.ui;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.wolf.first.R;
 import com.wolf.first.base.BaseActivity;
@@ -19,7 +25,10 @@ public class MenuActivity extends BaseActivity {
     Toolbar toolBar;
     @Bind(R.id.draw_layout)
     DrawerLayout drawLayout;
+    @Bind(R.id.navigation_view)
+    NavigationView navigationView;
     private ActionBarDrawerToggle mDrawerToggle;
+    private View headerView;
 
     @Override
     public int getLayoutId() {
@@ -28,6 +37,24 @@ public class MenuActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        //获取头布局文件
+        headerView = navigationView.getHeaderView(0);
+        ImageView headerImage = (ImageView) headerView.findViewById(R.id.header_image);
+        TextView nameText = (TextView) headerView.findViewById(R.id.name_text);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.set:
+                        break;
+                    case R.id.about:
+                        break;
+                }
+                return true;
+            }
+        });
+
+
         toolBar.setTitle("首页");
         setSupportActionBar(toolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -46,6 +73,8 @@ public class MenuActivity extends BaseActivity {
         };
         mDrawerToggle.syncState();
         drawLayout.setDrawerListener(mDrawerToggle);
+        //去阴影
+        drawLayout.setScrimColor(Color.TRANSPARENT);
     }
 
     @Override
