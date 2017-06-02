@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 
+import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wolf.first.ui.TestActivity;
 import com.wolf.first.util.TUtil;
 
@@ -17,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by W.J on 2017/5/18.
  */
 
-public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel> extends AppCompatActivity {
+public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel> extends RxAppCompatActivity {
     public abstract int getLayoutId();
 
     public abstract void initView();

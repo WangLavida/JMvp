@@ -9,7 +9,15 @@ import java.io.File;
  */
 
 public class Constant {
-    public static String LOG_File = Environment.getExternalStorageDirectory()+"/first/log/";
-    public static String HEADER_File = Environment.getExternalStorageDirectory()+"/first/header/";
-    public static String LOG_NAME = "log.txt";
+    /**
+     * mob app key
+     */
+    public static final String APP_KEY = "1e5a1ff5da673";
+    public static final String LOG_File = Environment.getExternalStorageDirectory() + "/first/log/";
+    public static final String HEADER_File = Environment.getExternalStorageDirectory() + "/first/header/";
+    public static final String LOG_NAME = "log.txt";
+    //头像key
+    public static final String HEADER_KEY = "HEADER_KEY";
+    //姓名key
+    public static final String NAME_KEY = "NAME_KEY";
 }

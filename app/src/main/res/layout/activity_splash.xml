@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/splash">
+
+    <com.dinuscxj.progressbar.CircleProgressBar
+        app:style="solid_line"
+        android:id="@+id/line_progress"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        app:progress_text_color="@color/colorPrimary"
+        app:progress_text_size="16sp"
+        app:draw_progress_text="true"
+        app:progress_stroke_width="6dp"
+        app:progress_start_color="@color/colorAccent"
+        app:progress_end_color="@color/colorPrimaryDark"
+        app:progress_background_color="#5c5c5c"/>
+</RelativeLayout>
