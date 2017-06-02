@@ -6,23 +6,32 @@ import java.io.Serializable;
  * Created by W.J on 2017/5/31.
  */
 
-public class BaseBean implements Serializable{
-    public int state;
-    public String error;
+public class BaseBean<T> implements Serializable {
+    public String msg;
+    public T result;
+    public String retCode;
 
-    public int getState() {
-        return state;
+    public T getResult() {
+        return result;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setResult(T result) {
+        this.result = result;
     }
 
-    public String getError() {
-        return error;
+    public String getRetCode() {
+        return retCode;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setRetCode(String retCode) {
+        this.retCode = retCode;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 }

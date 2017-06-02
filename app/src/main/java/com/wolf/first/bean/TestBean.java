@@ -9,7 +9,7 @@ import java.util.List;
  * Created by W.J on 2017/5/23.
  */
 
-public class TestBean extends BaseBean implements Serializable{
+public class TestBean implements Serializable{
 
     /**
      * size : 10
