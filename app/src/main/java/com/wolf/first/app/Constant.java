@@ -2,8 +2,6 @@ package com.wolf.first.app;
 
 import android.os.Environment;
 
-import java.io.File;
-
 /**
  * Created by W.J on 2017/5/31.
  */
@@ -20,4 +18,5 @@ public class Constant {
     public static final String HEADER_KEY = "HEADER_KEY";
     //姓名key
     public static final String NAME_KEY = "NAME_KEY";
+    public static final String BASE_KEY = "BASE_KEY";
 }

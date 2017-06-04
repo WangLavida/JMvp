@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wolf.first.R;
 import com.wolf.first.util.TUtil;
 
 import butterknife.ButterKnife;
@@ -32,18 +31,20 @@ public abstract class BaseFragment<T extends BasePresenter, M extends BaseModel>
     public abstract void initView();
     public abstract void initData();
 
-    public View view;
+    public View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(setContent(), container, false);
+        rootView = inflater.inflate(setContent(), container, false);
+        ButterKnife.bind(this, rootView);
         mContext = getActivity();
         mPresenter = TUtil.getT(this, 0);
         mModel = TUtil.getT(this, 1);
         initPresenter();
         initData();
-        return view;
+        initView();
+        return rootView;
     }
 
 

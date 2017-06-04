@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.blankj.utilcode.util.ToastUtils;
 import com.wolf.first.R;
 import com.wolf.first.base.BaseActivity;
+import com.wolf.first.base.BaseBean;
 import com.wolf.first.ui.contract.TestContract;
 import com.wolf.first.ui.model.TestModel;
 import com.wolf.first.ui.presenter.TestPresenter;
@@ -16,7 +16,8 @@ import com.wolf.first.ui.presenter.TestPresenter;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class TestActivity extends BaseActivity<TestPresenter, TestModel> implements TestContract.View {
+public class TestActivity extends BaseActivity<TestPresenter, TestModel> implements TestContract
+        .View {
     @Bind(R.id.test)
     Button test;
 
@@ -51,9 +52,7 @@ public class TestActivity extends BaseActivity<TestPresenter, TestModel> impleme
     }
 
     @Override
-    public void onSuccess(String msg) {
-        ToastUtils.showLong(msg);
-        test.setText(msg);
+    public void onSuccess(BaseBean baseBean) {
     }
 
     @Override
@@ -63,7 +62,7 @@ public class TestActivity extends BaseActivity<TestPresenter, TestModel> impleme
 
     @Override
     public void onError(String msg) {
-         ToastUtils.showLong(msg);
+        ToastUtils.showLong(msg);
     }
 
     @OnClick(R.id.test)

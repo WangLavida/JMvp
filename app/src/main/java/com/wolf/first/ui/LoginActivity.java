@@ -2,18 +2,14 @@ package com.wolf.first.ui;
 
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.ToastUtils;
 import com.wolf.first.R;
 import com.wolf.first.base.BaseActivity;
-import com.wolf.first.base.BaseView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
@@ -71,6 +67,6 @@ public class LoginActivity extends BaseActivity {
         } else {
             pwdInput.setError("");
         }
-        MenuActivity.startTest(LoginActivity.this);
+//        MenuActivity.startTest(LoginActivity.this);
     }
 }

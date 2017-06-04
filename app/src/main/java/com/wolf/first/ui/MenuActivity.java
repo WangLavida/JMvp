@@ -24,6 +24,8 @@ import com.luck.picture.lib.model.PictureConfig;
 import com.wolf.first.R;
 import com.wolf.first.adapter.MyFragmentPagerAdapter;
 import com.wolf.first.base.BaseActivity;
+import com.wolf.first.base.BaseBean;
+import com.wolf.first.bean.CategoryBean;
 import com.wolf.first.ui.menu.CookFragment;
 import com.wolf.first.ui.menu.ToolFragment;
 import com.wolf.first.util.ImageUtil;
@@ -39,6 +41,7 @@ import butterknife.OnClick;
 import me.drakeet.materialdialog.MaterialDialog;
 
 import static com.wolf.first.R.id.set;
+import static com.wolf.first.app.Constant.BASE_KEY;
 import static com.wolf.first.app.Constant.HEADER_KEY;
 import static com.wolf.first.app.Constant.NAME_KEY;
 
@@ -60,7 +63,7 @@ public class MenuActivity extends BaseActivity {
     private View headerView;
     private ImageView headerImage;
     private TextView nameText;
-
+    private BaseBean<CategoryBean> baseBean;
 
     @Override
     public int getLayoutId() {
@@ -75,7 +78,7 @@ public class MenuActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        baseBean = (BaseBean<CategoryBean>) getIntent().getExtras().get(BASE_KEY);
     }
 
     @Override
@@ -86,10 +89,14 @@ public class MenuActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
-    public static void startTest(Activity activity) {
+    public static void startTest(Activity activity, BaseBean<CategoryBean> baseBean) {
         Intent intent = new Intent(activity, MenuActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable(BASE_KEY, baseBean);
+        intent.putExtras(b);
         activity.startActivity(intent);
     }
 
@@ -116,7 +123,8 @@ public class MenuActivity extends BaseActivity {
                 setName();
             }
         });
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView
+                .OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
@@ -138,7 +146,8 @@ public class MenuActivity extends BaseActivity {
         //去除默认Title显示
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         //创建返回键，并实现打开关/闭监听
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawLayout, toolBar, R.string.open, R.string.close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawLayout, toolBar, R.string.open, R
+                .string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
@@ -157,16 +166,18 @@ public class MenuActivity extends BaseActivity {
 
     private void initViewPager() {
         ArrayList<Fragment> fragmentList = new ArrayList<Fragment>();
-        fragmentList.add(new CookFragment());
+        fragmentList.add(CookFragment.newInstance(baseBean));
         fragmentList.add(new ToolFragment());
-        MyFragmentPagerAdapter myFragmentPagerAdapter = new MyFragmentPagerAdapter(getSupportFragmentManager(), fragmentList);
+        MyFragmentPagerAdapter myFragmentPagerAdapter = new MyFragmentPagerAdapter
+                (getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(myFragmentPagerAdapter);
         viewPager.setOffscreenPageLimit(2);
         viewPager.setCurrentItem(0);
         cookImage.setSelected(true);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset, int
+                    positionOffsetPixels) {
 
             }
 
@@ -185,7 +196,8 @@ public class MenuActivity extends BaseActivity {
     /**
      * 图片回调方法
      */
-    private PictureConfig.OnSelectResultCallback resultCallback = new PictureConfig.OnSelectResultCallback() {
+    private PictureConfig.OnSelectResultCallback resultCallback = new PictureConfig
+            .OnSelectResultCallback() {
         @Override
         public void onSelectSuccess(List<LocalMedia> resultList) {
             // 多选回调
@@ -236,7 +248,8 @@ public class MenuActivity extends BaseActivity {
     private void showHeaderName() {
         String headerPath = CacheUtils.get(mContext).getAsString(HEADER_KEY);
         if (!StringUtils.isEmpty(headerPath)) {
-            ImageUtil.loadImage(mContext, headerImage, headerPath, R.mipmap.header_icon, R.mipmap.header_icon, R.mipmap.header_icon, true);
+            ImageUtil.loadImage(mContext, headerImage, headerPath, R.mipmap.header_icon, R.mipmap
+                    .header_icon, R.mipmap.header_icon, true);
         }
         String name = CacheUtils.get(mContext).getAsString(NAME_KEY);
         nameText.setText(TextUtils.isEmpty(name) ? "起个名吧" : name);
@@ -258,7 +271,8 @@ public class MenuActivity extends BaseActivity {
                             ToastUtil.showLong("写个名字啊");
                         } else {
                             mMaterialDialog.dismiss();
-                            CacheUtils.get(mContext).put(NAME_KEY, contentView.getText().toString());
+                            CacheUtils.get(mContext).put(NAME_KEY, contentView.getText().toString
+                                    ());
                             showHeaderName();
                         }
                     }

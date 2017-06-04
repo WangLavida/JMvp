@@ -1,16 +1,17 @@
 package com.wolf.first;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 
 import com.dinuscxj.progressbar.CircleProgressBar;
 import com.wolf.first.base.BaseActivity;
+import com.wolf.first.base.BaseBean;
+import com.wolf.first.bean.CategoryBean;
 import com.wolf.first.ui.MenuActivity;
+import com.wolf.first.ui.contract.SplashContract;
+import com.wolf.first.ui.model.SplashModel;
+import com.wolf.first.ui.presenter.SplashPresenter;
 import com.wolf.first.util.AppUtil;
-
-import org.reactivestreams.Subscription;
 
 import butterknife.Bind;
 import io.reactivex.Observable;
@@ -20,12 +21,14 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> implements
+        SplashContract.View {
 
 
     @Bind(R.id.line_progress)
     CircleProgressBar lineProgress;
     private Integer proMax = 5;
+    private BaseBean<CategoryBean> baseBean;
 
     @Override
     public int getLayoutId() {
@@ -34,8 +37,9 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        lineProgress.setClickable(false);
         lineProgress.setProgress(100);
-        lineProgress.setProgressTextFormatPattern("跳过" + proMax);
+        lineProgress.setProgressTextFormatPattern(proMax+"");
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
@@ -50,14 +54,19 @@ public class SplashActivity extends BaseActivity {
                 }
                 e.onComplete();
             }
-        }).subscribeOn(Schedulers.io()).compose(this.<Integer>bindToLifecycle()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
+        }).subscribeOn(Schedulers.io()).compose(this.<Integer>bindToLifecycle()).observeOn
+                (AndroidSchedulers.mainThread()).subscribe(new Consumer<Integer>() {
             @Override
             public void accept(Integer integer) throws Exception {
                 lineProgress.setProgress(proMax * 20);
                 if (proMax == 0) {
                     toMenu();
                 } else {
-                    lineProgress.setProgressTextFormatPattern("跳过" + proMax);
+                    if (baseBean != null) {
+                        lineProgress.setProgressTextFormatPattern("跳过" + proMax);
+                    } else {
+                        lineProgress.setProgressTextFormatPattern(proMax + "");
+                    }
                 }
             }
         });
@@ -71,16 +80,16 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
+        mPresenter.getCategory();
     }
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this, mModel);
     }
 
     private void toMenu() {
-        MenuActivity.startTest(SplashActivity.this);
+        MenuActivity.startTest(SplashActivity.this,baseBean);
         finish();
     }
 
@@ -94,5 +103,21 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    @Override
+    public void onSuccess(BaseBean baseBean) {
+        this.baseBean = baseBean;
+        lineProgress.setClickable(true);
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onError(String msg) {
+
     }
 }

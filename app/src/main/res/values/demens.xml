@@ -6,4 +6,5 @@
     <dimen name="login_padding">10dp</dimen>
     <dimen name="header_padding">20dp</dimen>
     <dimen name="header_width">100dp</dimen>
+    <dimen name="add_padding">20dp</dimen>
 </resources>

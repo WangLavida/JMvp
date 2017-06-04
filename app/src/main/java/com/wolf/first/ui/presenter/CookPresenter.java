@@ -3,7 +3,6 @@ package com.wolf.first.ui.presenter;
 import com.wolf.first.api.ResultObserver;
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
-import com.wolf.first.bean.TestBean;
 import com.wolf.first.ui.contract.CookContract;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -26,7 +25,7 @@ public class CookPresenter extends CookContract.Presenter {
             @Override
             public void onNext(BaseBean<CategoryBean> categoryBeanBaseBean) {
                 super.onNext(categoryBeanBaseBean);
-                mView.onSuccess(categoryBeanBaseBean.getMsg());
+                mView.onSuccess(categoryBeanBaseBean);
             }
 
             @Override
