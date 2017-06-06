@@ -1,13 +1,16 @@
 package com.wolf.first.ui.menu;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.INotificationSideChannel;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.wolf.first.R;
 import com.wolf.first.adapter.MyFragmentPagerAdapter;
@@ -16,17 +19,20 @@ import com.wolf.first.base.BaseBean;
 import com.wolf.first.base.BaseFragment;
 import com.wolf.first.bean.CategoryBean;
 import com.wolf.first.bean.CategoryInfoBean;
-import com.wolf.first.ui.contract.CookContract;
+import com.wolf.first.contract.CookContract;
+import com.wolf.first.model.CookModel;
+import com.wolf.first.presenter.CookPresenter;
+import com.wolf.first.ui.cook.AddCategoryActivity;
 import com.wolf.first.ui.cook.CookListFragment;
-import com.wolf.first.ui.model.CookModel;
-import com.wolf.first.ui.presenter.CookPresenter;
 import com.wolf.first.util.ViewUtils;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class CookFragment extends BaseFragment<CookPresenter, CookModel> implements CookContract
@@ -36,6 +42,8 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     TabLayout tabLayout;
     @Bind(R.id.view_pager)
     ViewPager viewPager;
+    @Bind(R.id.add_image)
+    ImageView addImage;
     private List<CategoryInfoBean> categoryInfoBeanList = new ArrayList<CategoryInfoBean>();
     private List<String> categoryNameList = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
@@ -62,16 +70,11 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
 
     @Override
     public void initData() {
-        List<CategoryInfoBean> test = new ArrayList<CategoryInfoBean>();
-        for (CategoryBean categoryBean : baseBean.getResult().getChilds()) {
-            for (CategoryBean categoryBean1 : categoryBean.getChilds()) {
-                test.add(categoryBean1.getCategoryInfo());
+//        for (CategoryBean categoryBean : baseBean.getResult().getChilds()) {
+            for (CategoryBean categoryBean1 : baseBean.getResult().getChilds().get(0).getChilds()) {
+                categoryInfoBeanList.add(categoryBean1.getCategoryInfo());
             }
-        }
-        for (int i = 0; i <= 2; i++) {
-            categoryInfoBeanList.add(test.get(i));
-        }
-
+//        }
     }
 
     public static CookFragment newInstance(BaseBean<CategoryBean> param1) {
@@ -129,6 +132,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
+        ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -136,5 +140,14 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    @OnClick(R.id.add_image)
+    public void onViewClicked() {
+        Intent intent = new Intent(mContext, AddCategoryActivity.class);
+        Bundle b = new Bundle();
+        b.putSerializable(Constant.ALL_LIST_KEY, (Serializable) categoryInfoBeanList);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 }

@@ -9,4 +9,5 @@
     <color name="menuTextColor">#5c5c5c</color>
     <color name="commonColor">#454E4F</color>
     <color name="headTopColor">#00BDFF</color>
+    <color name="normalColor">#999999</color>
 </resources>

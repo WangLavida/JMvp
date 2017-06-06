@@ -1,9 +1,9 @@
-package com.wolf.first.ui.presenter;
+package com.wolf.first.presenter;
 
 import com.wolf.first.api.ResultObserver;
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
-import com.wolf.first.ui.contract.CookContract;
+import com.wolf.first.contract.CookContract;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;

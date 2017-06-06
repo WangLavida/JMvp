@@ -57,5 +57,6 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.1.0'
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
     testCompile 'junit:junit:4.12'
 }

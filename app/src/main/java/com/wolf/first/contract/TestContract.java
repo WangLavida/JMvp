@@ -1,4 +1,4 @@
-package com.wolf.first.ui.contract;
+package com.wolf.first.contract;
 
 import com.wolf.first.base.BaseModel;
 import com.wolf.first.base.BasePresenter;

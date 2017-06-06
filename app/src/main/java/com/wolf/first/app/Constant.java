@@ -19,4 +19,6 @@ public class Constant {
     //姓名key
     public static final String NAME_KEY = "NAME_KEY";
     public static final String BASE_KEY = "BASE_KEY";
+    public static final String ALL_LIST_KEY = "ALL_LIST_KEY";
+    public static final String MY_LIST_KEY = "MY_LIST_KEY";
 }

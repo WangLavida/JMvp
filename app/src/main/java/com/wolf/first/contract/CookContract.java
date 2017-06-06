@@ -1,4 +1,4 @@
-package com.wolf.first.ui.contract;
+package com.wolf.first.contract;
 
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.base.BaseModel;

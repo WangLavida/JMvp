@@ -1,8 +1,8 @@
-package com.wolf.first.ui.presenter;
+package com.wolf.first.presenter;
 
 import com.wolf.first.api.ResultObserver;
 import com.wolf.first.bean.TestBean;
-import com.wolf.first.ui.contract.TestContract;
+import com.wolf.first.contract.TestContract;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -25,7 +25,7 @@ public class TestPresenter extends TestContract.Presenter {
             @Override
             public void onNext(TestBean testBean) {
                 super.onNext(testBean);
-//                mView.onSuccess(testBean.getList().get(0).getImgurl());
+//                mView.onSuccess(testBean);
             }
 
             @Override

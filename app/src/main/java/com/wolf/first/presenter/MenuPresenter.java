@@ -1,6 +1,6 @@
-package com.wolf.first.ui.presenter;
+package com.wolf.first.presenter;
 
-import com.wolf.first.ui.contract.MenuContract;
+import com.wolf.first.contract.MenuContract;
 
 /**
  * Created by W.J on 2017/5/31.

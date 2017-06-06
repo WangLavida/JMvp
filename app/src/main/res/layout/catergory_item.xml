@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/name_text"
+   android:layout_width="match_parent"
+    android:layout_height="30dp"
+    android:gravity="center"
+    android:textSize="@dimen/small1_size"
+    android:textColor="@color/normalColor"
+    android:background="@drawable/category_item_bg"
+    android:layout_margin="@dimen/login_padding">
+</TextView>

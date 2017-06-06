@@ -7,4 +7,8 @@
     <dimen name="header_padding">20dp</dimen>
     <dimen name="header_width">100dp</dimen>
     <dimen name="add_padding">20dp</dimen>
+    <dimen name="normal_size">20sp</dimen>
+    <dimen name="small_size">18sp</dimen>
+    <dimen name="small1_size">16sp</dimen>
+    <dimen name="category_padding">10dp</dimen>
 </resources>

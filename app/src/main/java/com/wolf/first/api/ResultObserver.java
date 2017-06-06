@@ -1,16 +1,12 @@
 package com.wolf.first.api;
 
-import android.util.Log;
-
 import com.blankj.utilcode.util.NetworkUtils;
 import com.google.gson.Gson;
 import com.wolf.first.base.BaseView;
-import com.wolf.first.ui.contract.TestContract;
 import com.wolf.first.util.MyLog;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import retrofit2.HttpException;
 
 /**
  * Created by W.J on 2017/5/25.
