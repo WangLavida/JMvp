@@ -5,8 +5,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wolf.first.R;
 import com.wolf.first.adapter.CategoryAdapter;
 import com.wolf.first.app.Constant;
@@ -19,6 +22,7 @@ import com.wolf.first.presenter.AddCategoryPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.Bind;
 
@@ -33,6 +37,8 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
     private List<CategoryInfoBean> myList = new ArrayList<CategoryInfoBean>();
     private List<CategoryInfoBean> allList = new ArrayList<CategoryInfoBean>();
     private List<CategoryInfoBean> otherList = new ArrayList<CategoryInfoBean>();
+    private CategoryAdapter myAdapter;
+    private CategoryAdapter allAdapter;
 
     @Override
     public int getLayoutId() {
@@ -49,16 +55,16 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
                 onBackPressed();
             }
         });
-        myRecyclerView.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        myRecyclerView.setAdapter(new CategoryAdapter(R.layout.catergory_item, myList));
-        allRecyclerView.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
-        allRecyclerView.setAdapter(new CategoryAdapter(R.layout.catergory_item1, allList));
+        initMyRecycler();
+        initAllRecycler();
     }
 
     @Override
     public void initData() {
         allList = (List<CategoryInfoBean>) getIntent().getExtras().getSerializable(Constant.ALL_LIST_KEY);
-        myList.addAll(allList);
+        myList = (List<CategoryInfoBean>) getIntent().getExtras().getSerializable(Constant.MY_LIST_KEY);
+        otherList.addAll(allList);
+        otherList.removeAll(myList);
     }
 
     @Override
@@ -90,5 +96,47 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
     @Override
     public void onBackPressed() {
         finish();
+    }
+
+    private void initMyRecycler() {
+        View myEmptyView = LayoutInflater.from(mContext).inflate(R.layout.category_empty, null);
+        myRecyclerView.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
+        myAdapter = new CategoryAdapter(R.layout.catergory_item, myList);
+        TextView emptyText = (TextView) myEmptyView.findViewById(R.id.empty_text);
+        emptyText.setText("快点点击下面添加啊");
+        myAdapter.setEmptyView(myEmptyView);
+        myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mPresenter.deleteCategory(myList.get(position));
+                otherList.add(myList.get(position));
+                myList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        myRecyclerView.setAdapter(myAdapter);
+    }
+
+    private void initAllRecycler() {
+        View allEmptyView = LayoutInflater.from(mContext).inflate(R.layout.category_empty, null);
+        allRecyclerView.setLayoutManager(new GridLayoutManager(this, 4, LinearLayoutManager.VERTICAL, false));
+        allAdapter = new CategoryAdapter(R.layout.catergory_item1, otherList);
+        TextView emptyText = (TextView) allEmptyView.findViewById(R.id.empty_text);
+        emptyText.setText("添加这么多干嘛");
+        allAdapter.setEmptyView(allEmptyView);
+        allAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                mPresenter.saveCategory(otherList.get(position));
+                myList.add(otherList.get(position));
+                otherList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
+        allRecyclerView.setAdapter(allAdapter);
+    }
+    private void notifyDataSetChanged(){
+        allAdapter.notifyDataSetChanged();
+        myAdapter.notifyDataSetChanged();
     }
 }

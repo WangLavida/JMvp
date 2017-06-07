@@ -1,11 +1,11 @@
-package com.wolf.first.ui.model;
+package com.wolf.first.model;
 
 import com.wolf.first.api.Api;
 import com.wolf.first.api.ApiCookService;
 import com.wolf.first.app.Constant;
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
-import com.wolf.first.ui.contract.SplashContract;
+import com.wolf.first.contract.SplashContract;
 
 import java.util.HashMap;
 import java.util.Map;

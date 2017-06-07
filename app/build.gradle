@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
@@ -25,7 +25,11 @@ android {
     }
 
 }
-
+greendao {
+    schemaVersion 1
+    daoPackage 'com.wolf.first.bean.greendao'
+    targetGenDir 'src/main/java'
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -59,4 +63,6 @@ dependencies {
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
     testCompile 'junit:junit:4.12'
+    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'com.idescout.sql:sqlscout-server:2.0'
 }

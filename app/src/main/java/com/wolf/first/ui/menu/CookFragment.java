@@ -48,6 +48,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     private List<String> categoryNameList = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
     private BaseBean<CategoryBean> baseBean;
+    private List<CategoryInfoBean> myList = new ArrayList<CategoryInfoBean>();
 
     public CookFragment() {
         // Required empty public constructor
@@ -70,11 +71,10 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
 
     @Override
     public void initData() {
-//        for (CategoryBean categoryBean : baseBean.getResult().getChilds()) {
-            for (CategoryBean categoryBean1 : baseBean.getResult().getChilds().get(0).getChilds()) {
-                categoryInfoBeanList.add(categoryBean1.getCategoryInfo());
-            }
-//        }
+        for (CategoryBean categoryBean : baseBean.getResult().getChilds().get(0).getChilds()) {
+            categoryInfoBeanList.add(categoryBean.getCategoryInfo());
+        }
+        mPresenter.getDBCategory();
     }
 
     public static CookFragment newInstance(BaseBean<CategoryBean> param1) {
@@ -147,7 +147,13 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
         Intent intent = new Intent(mContext, AddCategoryActivity.class);
         Bundle b = new Bundle();
         b.putSerializable(Constant.ALL_LIST_KEY, (Serializable) categoryInfoBeanList);
+        b.putSerializable(Constant.MY_LIST_KEY, (Serializable) myList);
         intent.putExtras(b);
         startActivity(intent);
+    }
+
+    @Override
+    public void getDBCategory(List<CategoryInfoBean> categoryInfoBeanList) {
+        myList.addAll(categoryInfoBeanList);
     }
 }

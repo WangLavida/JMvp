@@ -8,9 +8,9 @@ import com.wolf.first.base.BaseActivity;
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
 import com.wolf.first.ui.MenuActivity;
-import com.wolf.first.ui.contract.SplashContract;
-import com.wolf.first.ui.model.SplashModel;
-import com.wolf.first.ui.presenter.SplashPresenter;
+import com.wolf.first.contract.SplashContract;
+import com.wolf.first.model.SplashModel;
+import com.wolf.first.presenter.SplashPresenter;
 import com.wolf.first.util.AppUtil;
 
 import butterknife.Bind;

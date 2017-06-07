@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.idescout.sql.SqlScoutServer;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.wolf.first.util.TUtil;
 
@@ -38,7 +39,7 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
         initPresenter();
         initData();
         initView();
-
+        SqlScoutServer.create(this, getPackageName());
 
     }
 
