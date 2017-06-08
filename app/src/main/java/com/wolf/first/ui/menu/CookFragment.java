@@ -66,7 +66,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
 
     @Override
     public void initView() {
-        initListFragment();
+
     }
 
     @Override
@@ -99,7 +99,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     }
 
     private void initListFragment() {
-        for (CategoryInfoBean categoryInfoBean : categoryInfoBeanList) {
+        for (CategoryInfoBean categoryInfoBean : myList) {
             categoryNameList.add(categoryInfoBean.getName());
             CookListFragment cookListFragment = new CookListFragment();
             fragmentList.add(cookListFragment);
@@ -155,5 +155,6 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     @Override
     public void getDBCategory(List<CategoryInfoBean> categoryInfoBeanList) {
         myList.addAll(categoryInfoBeanList);
+        initListFragment();
     }
 }
