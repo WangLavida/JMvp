@@ -15,9 +15,9 @@ import io.reactivex.Observable;
 
 public interface AddCategoryContract {
     interface Model extends BaseModel {
-        void saveCategory(CategoryInfoBean categoryInfoBean);
+        Observable saveCategory(CategoryInfoBean categoryInfoBean);
 
-        void deleteCategory(CategoryInfoBean categoryInfoBean);
+        Observable deleteCategory(CategoryInfoBean categoryInfoBean);
 
     }
 

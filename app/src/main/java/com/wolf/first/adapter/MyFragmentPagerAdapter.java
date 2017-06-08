@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,13 +14,13 @@ import java.util.List;
 
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
 
-    private List<?> mFragment;
+    private List<Fragment> mFragment;
     private List<String> mTitleList;
 
     /**
      * 普通，主页使用
      */
-    public MyFragmentPagerAdapter(FragmentManager fm, List<?> mFragment) {
+    public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> mFragment) {
         super(fm);
         this.mFragment = mFragment;
     }
@@ -27,7 +28,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
     /**
      * 接收首页传递的标题
      */
-    public MyFragmentPagerAdapter(FragmentManager fm, List<?> mFragment, List<String> mTitleList) {
+    public MyFragmentPagerAdapter(FragmentManager fm, List<Fragment> mFragment, List<String> mTitleList) {
         super(fm);
         this.mFragment = mFragment;
         this.mTitleList = mTitleList;
@@ -61,11 +62,37 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
-    public void addFragmentList(List<?> fragment) {
+    public void addFragmentList(List<Fragment> fragment) {
         this.mFragment.clear();
         this.mFragment = null;
         this.mFragment = fragment;
         notifyDataSetChanged();
     }
 
+    //添加删除移动fragment
+    public int delItem(String title) {
+        int index = mTitleList.indexOf(title);
+        if (index != -1) {
+            delItem(index);
+        }
+        return index;
+    }
+
+    public void delItem(int position) {
+        mTitleList.remove(position);
+        mFragment.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public void swapItems(int fromPos, int toPos) {
+        Collections.swap(mTitleList, fromPos, toPos);
+        Collections.swap(mFragment, fromPos, toPos);
+        notifyDataSetChanged();
+    }
+
+    public void addItem(Fragment fragment, String title) {
+        mFragment.add(fragment);
+        mTitleList.add(title);
+        notifyDataSetChanged();
+    }
 }

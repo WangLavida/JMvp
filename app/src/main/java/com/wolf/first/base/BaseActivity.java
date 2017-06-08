@@ -39,7 +39,8 @@ public abstract class BaseActivity<T extends BasePresenter, M extends BaseModel>
         initPresenter();
         initData();
         initView();
-        SqlScoutServer.create(this, getPackageName());
+        //数据库插件
+//        SqlScoutServer.create(this, getPackageName());
 
     }
 

@@ -16,6 +16,9 @@ public class MyLog {
     public static void i(String TAG, String msg) {
         KLog.i(TAG, msg);
     }
+    public static void d(String msg) {
+        KLog.d(msg);
+    }
 
     /**
      * 输出到sd卡

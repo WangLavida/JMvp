@@ -20,6 +20,7 @@
             app:tabBackground="@color/navigationBarColor"
             app:tabIndicatorColor="@color/colorAccent"
             app:tabIndicatorHeight="0dp"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/colorWhite"
             app:tabTextColor="@color/colorPrimary"></android.support.design.widget.TabLayout>
 

@@ -19,17 +19,13 @@ import com.wolf.first.bean.CategoryInfoBean;
 import com.wolf.first.contract.AddCategoryContract;
 import com.wolf.first.model.AddCategoryModel;
 import com.wolf.first.presenter.AddCategoryPresenter;
-import com.wolf.first.util.MyLog;
+import com.wolf.first.rxBus.RxBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.Bind;
-
-import static android.R.attr.x;
-import static android.R.id.list;
 
 public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddCategoryModel> implements AddCategoryContract.View {
 
@@ -88,6 +84,7 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
 

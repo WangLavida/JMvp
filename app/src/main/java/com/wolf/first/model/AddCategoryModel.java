@@ -1,5 +1,6 @@
 package com.wolf.first.model;
 
+import com.wolf.first.base.BaseModel;
 import com.wolf.first.bean.CategoryInfoBean;
 import com.wolf.first.bean.greendao.CategoryInfoBeanDao;
 import com.wolf.first.contract.AddCategoryContract;
@@ -18,15 +19,29 @@ import io.reactivex.annotations.NonNull;
 
 public class AddCategoryModel implements AddCategoryContract.Model {
     @Override
-    public void saveCategory(CategoryInfoBean categoryInfoBean) {
-        getDao().save(categoryInfoBean);
+    public Observable saveCategory(final CategoryInfoBean categoryInfoBean) {
+        Observable observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
+                getDao().save(categoryInfoBean);
+                e.onComplete();
+            }
+        });
+        return observable;
     }
 
     @Override
-    public void deleteCategory(CategoryInfoBean categoryInfoBean) {
-        getDao().delete(categoryInfoBean);
-    }
+    public Observable deleteCategory(final CategoryInfoBean categoryInfoBean) {
 
+        Observable observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
+                getDao().delete(categoryInfoBean);
+                e.onComplete();
+            }
+        });
+        return observable;
+    }
 
 
     private CategoryInfoBeanDao getDao() {

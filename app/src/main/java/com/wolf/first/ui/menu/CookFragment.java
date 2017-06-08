@@ -5,11 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.INotificationSideChannel;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.wolf.first.R;
@@ -22,17 +18,25 @@ import com.wolf.first.bean.CategoryInfoBean;
 import com.wolf.first.contract.CookContract;
 import com.wolf.first.model.CookModel;
 import com.wolf.first.presenter.CookPresenter;
+import com.wolf.first.rxBus.CategoryEvent;
 import com.wolf.first.ui.cook.AddCategoryActivity;
 import com.wolf.first.ui.cook.CookListFragment;
+import com.wolf.first.util.MyLog;
+import com.wolf.first.rxBus.RxBus;
 import com.wolf.first.util.ViewUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+
+import static android.R.attr.y;
 
 
 public class CookFragment extends BaseFragment<CookPresenter, CookModel> implements CookContract
@@ -44,11 +48,17 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     ViewPager viewPager;
     @Bind(R.id.add_image)
     ImageView addImage;
+    //所有的类别
     private List<CategoryInfoBean> categoryInfoBeanList = new ArrayList<CategoryInfoBean>();
+    //tabLayout标题
     private List<String> categoryNameList = new ArrayList<String>();
     private List<Fragment> fragmentList = new ArrayList<Fragment>();
+    //请求返回数据
     private BaseBean<CategoryBean> baseBean;
+    //已经添加的类别
     private List<CategoryInfoBean> myList = new ArrayList<CategoryInfoBean>();
+    private RxBus rxBus;
+    private MyFragmentPagerAdapter myFragmentPagerAdapter;
 
     public CookFragment() {
         // Required empty public constructor
@@ -91,6 +101,8 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
         if (getArguments() != null) {
             baseBean = (BaseBean<CategoryBean>) getArguments().get(Constant.BASE_KEY);
         }
+        initRxBus();
+
     }
 
     @Override
@@ -101,15 +113,19 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     private void initListFragment() {
         for (CategoryInfoBean categoryInfoBean : myList) {
             categoryNameList.add(categoryInfoBean.getName());
-            CookListFragment cookListFragment = new CookListFragment();
-            fragmentList.add(cookListFragment);
+            fragmentList.add(newFragment());
         }
-        MyFragmentPagerAdapter myFragmentPagerAdapter = new MyFragmentPagerAdapter
+        myFragmentPagerAdapter = new MyFragmentPagerAdapter
                 (getChildFragmentManager(), fragmentList, categoryNameList);
         viewPager.setAdapter(myFragmentPagerAdapter);
         viewPager.setCurrentItem(0);
         tabLayout.setupWithViewPager(viewPager);
         ViewUtils.dynamicSetTabLayoutMode(tabLayout, mContext);
+    }
+
+    private CookListFragment newFragment() {
+        CookListFragment cookListFragment = new CookListFragment();
+        return cookListFragment;
     }
 
     @Override
@@ -126,20 +142,41 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
 
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    private void initRxBus() {
+        RxBus.getInstance().register(CategoryEvent.class).subscribe(new Consumer<CategoryEvent>() {
+            @Override
+            public void accept(@NonNull CategoryEvent categoryEvent) throws Exception {
+                MyLog.d(categoryEvent.getCategoryInfoBean().getName());
+                String name = categoryEvent.getCategoryInfoBean().getName();
+                switch (categoryEvent.getEvent()) {
+                    case CategoryEvent.ADD_EVENT:
+                        myFragmentPagerAdapter.addItem(newFragment(), name);
+                        myList.add(categoryEvent.getCategoryInfoBean());
+                        break;
+                    case CategoryEvent.DEL_EVENT:
+                        viewPager.setCurrentItem(0);
+                        myFragmentPagerAdapter.delItem(name);
+                        Iterator<CategoryInfoBean> it = myList.iterator();
+                        while (it.hasNext()) {
+                            CategoryInfoBean categoryInfoBean = it.next();
+                            if (categoryInfoBean.getName().equals(name)) {
+                                it.remove();
+                            }
+                        }
+                        break;
+                    case CategoryEvent.MOVE_EVENT:
+                        break;
+                }
+            }
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+        rxBus.unregisterAll();
     }
 
     @OnClick(R.id.add_image)
