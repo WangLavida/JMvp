@@ -81,10 +81,14 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
 
     @Override
     public void initData() {
-        for (CategoryBean categoryBean : baseBean.getResult().getChilds().get(0).getChilds()) {
-            categoryInfoBeanList.add(categoryBean.getCategoryInfo());
+        if (baseBean == null) {
+            mPresenter.getCategory();
+        } else {
+            for (CategoryBean categoryBean : baseBean.getResult().getChilds().get(0).getChilds()) {
+                categoryInfoBeanList.add(categoryBean.getCategoryInfo());
+            }
+            mPresenter.getDBCategory();
         }
-        mPresenter.getDBCategory();
     }
 
     public static CookFragment newInstance(BaseBean<CategoryBean> param1) {
@@ -113,7 +117,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     private void initListFragment() {
         for (CategoryInfoBean categoryInfoBean : myList) {
             categoryNameList.add(categoryInfoBean.getName());
-            fragmentList.add(newFragment());
+            fragmentList.add(newFragment(categoryInfoBean));
         }
         myFragmentPagerAdapter = new MyFragmentPagerAdapter
                 (getChildFragmentManager(), fragmentList, categoryNameList);
@@ -123,13 +127,15 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
         ViewUtils.dynamicSetTabLayoutMode(tabLayout, mContext);
     }
 
-    private CookListFragment newFragment() {
-        CookListFragment cookListFragment = new CookListFragment();
+    private CookListFragment newFragment(CategoryInfoBean categoryInfoBean) {
+        CookListFragment cookListFragment = CookListFragment.newInstance(categoryInfoBean);
         return cookListFragment;
     }
 
     @Override
     public void onSuccess(BaseBean baseBean) {
+        this.baseBean = baseBean;
+        initView();
     }
 
     @Override
@@ -151,7 +157,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
                 String name = categoryEvent.getCategoryInfoBean().getName();
                 switch (categoryEvent.getEvent()) {
                     case CategoryEvent.ADD_EVENT:
-                        myFragmentPagerAdapter.addItem(newFragment(), name);
+                        myFragmentPagerAdapter.addItem(newFragment(categoryEvent.getCategoryInfoBean()), name);
                         myList.add(categoryEvent.getCategoryInfoBean());
                         break;
                     case CategoryEvent.DEL_EVENT:
@@ -168,6 +174,7 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
                     case CategoryEvent.MOVE_EVENT:
                         break;
                 }
+                ViewUtils.dynamicSetTabLayoutMode(tabLayout, mContext);
             }
         });
     }
@@ -192,6 +199,14 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
     @Override
     public void getDBCategory(List<CategoryInfoBean> categoryInfoBeanList) {
         myList.addAll(categoryInfoBeanList);
+        if (myList.size() == 0) {
+            for (CategoryInfoBean categoryInfoBean : this.categoryInfoBeanList) {
+                if (categoryInfoBean.getName().equals("荤菜")) {
+                    myList.add(categoryInfoBean);
+                    mPresenter.saveCategory(categoryInfoBean);
+                }
+            }
+        }
         initListFragment();
     }
 }

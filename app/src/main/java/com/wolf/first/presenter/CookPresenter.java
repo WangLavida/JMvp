@@ -5,10 +5,14 @@ import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
 import com.wolf.first.bean.CategoryInfoBean;
 import com.wolf.first.contract.CookContract;
+import com.wolf.first.rxBus.CategoryEvent;
+import com.wolf.first.rxBus.RxBus;
 
 import java.util.List;
 
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -65,6 +69,31 @@ public class CookPresenter extends CookContract.Presenter {
             @Override
             public void onComplete() {
                 super.onComplete();
+            }
+        });
+    }
+
+    @Override
+    public void saveCategory(final CategoryInfoBean categoryInfoBean) {
+        mModel.saveCategory(categoryInfoBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull Object o) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         });
     }

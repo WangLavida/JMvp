@@ -17,7 +17,7 @@ public class ViewUtils {
         int screenWidth = ScreenUtils.getScreenWidth();
 
         if (tabWidth <= screenWidth) {
-            tabLayout.setTabMode(TabLayout.MODE_FIXED);
+            tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         } else {
             tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         }

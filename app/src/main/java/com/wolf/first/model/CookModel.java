@@ -25,11 +25,24 @@ import io.reactivex.annotations.NonNull;
 
 public class CookModel implements CookContract.Model {
     @Override
+    public Observable saveCategory(final CategoryInfoBean categoryInfoBean) {
+        Observable observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
+                getDao().save(categoryInfoBean);
+                e.onComplete();
+            }
+        });
+        return observable;
+    }
+
+    @Override
     public Observable<BaseBean<CategoryBean>> getCategory() {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("key", Constant.APP_KEY);
         return Api.getInstance().createService(ApiCookService.class).getCategory(params);
     }
+
     @Override
     public Observable<List<CategoryInfoBean>> getDBCategory() {
         Observable<List<CategoryInfoBean>> observable = Observable.create(new ObservableOnSubscribe<List<CategoryInfoBean>>() {

@@ -2,6 +2,7 @@ package com.wolf.first.api;
 
 import com.wolf.first.base.BaseBean;
 import com.wolf.first.bean.CategoryBean;
+import com.wolf.first.bean.CookResult;
 import com.wolf.first.bean.TestBean;
 
 import java.util.Map;
@@ -33,7 +34,7 @@ public interface ApiCookService {
      * @return
      */
     @GET("v1/cook/menu/search")
-    Observable<TestBean> searchMenu(@QueryMap Map<String, Object> params);
+    Observable<BaseBean<CookResult>> searchMenu(@QueryMap Map<String, Object> params);
 
     /**
      * 根据菜谱ID查询菜谱详情。

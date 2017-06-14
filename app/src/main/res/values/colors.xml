@@ -10,4 +10,5 @@
     <color name="commonColor">#454E4F</color>
     <color name="headTopColor">#00BDFF</color>
     <color name="normalColor">#999999</color>
+    <color name="normal1Color">#b2b2b2</color>
 </resources>

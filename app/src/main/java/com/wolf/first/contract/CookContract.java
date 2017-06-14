@@ -17,6 +17,7 @@ import io.reactivex.Observable;
 
 public interface CookContract {
     interface Model extends BaseModel {
+        Observable saveCategory(CategoryInfoBean categoryInfoBean);
         Observable<BaseBean<CategoryBean>> getCategory();
         Observable<List<CategoryInfoBean>> getDBCategory();
     }
@@ -28,5 +29,6 @@ public interface CookContract {
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void getCategory();
         public abstract void getDBCategory();
+        public abstract void saveCategory(CategoryInfoBean categoryInfoBean);
     }
 }

@@ -88,7 +88,7 @@ public class ImageUtil {
         if(circle) {
             Glide.with(context).load(uri.startsWith("//") ? new File(uri) : uri).fallback(fallback).placeholder(placeholder).error(error).bitmapTransform(new CropCircleTransformation(context)).crossFade(1000).into(imageView);
         }else{
-            Glide.with(context).load(uri.startsWith("//") ? new File(uri) : uri).fallback(fallback).placeholder(placeholder).error(error).into(imageView);
+            Glide.with(context).load(uri.startsWith("//") ? new File(uri) : uri).dontAnimate().fallback(fallback).placeholder(placeholder).error(error).into(imageView);
 
         }
     }

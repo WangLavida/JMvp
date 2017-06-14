@@ -118,6 +118,9 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
         myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (myList.get(position).getName().equals("荤菜")){
+                    return;
+                }
                 mPresenter.deleteCategory(myList.get(position));
                 otherList.add(myList.get(position));
                 myList.remove(position);

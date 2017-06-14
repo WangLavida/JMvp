@@ -1,35 +1,55 @@
 package com.wolf.first.ui.cook;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wolf.first.R;
+import com.wolf.first.adapter.CookListAdapter;
+import com.wolf.first.app.Constant;
+import com.wolf.first.base.BaseBean;
 import com.wolf.first.base.BaseFragment;
+import com.wolf.first.bean.CategoryInfoBean;
+import com.wolf.first.bean.CookInfo;
+import com.wolf.first.bean.CookResult;
+import com.wolf.first.contract.CookListContract;
+import com.wolf.first.model.CookListModel;
+import com.wolf.first.presenter.CookListPresenter;
+import com.wolf.first.util.MyLog;
+import com.wolf.first.view.MyDecoration;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link CookListFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link CookListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class CookListFragment extends BaseFragment {
-    private String mParam2;
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
-    public CookListFragment() {
-        // Required empty public constructor
+public class CookListFragment extends BaseFragment<CookListPresenter, CookListModel> implements CookListContract.View {
+
+    @Bind(R.id.recycler_view)
+    RecyclerView recyclerView;
+    private CategoryInfoBean categoryInfoBean;
+    private CookListAdapter cookListAdapter;
+    private List<CookInfo> cookInfoList = new ArrayList<CookInfo>();
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            categoryInfoBean = (CategoryInfoBean) getArguments().get(Constant.CATEGORY_INFO_BEAN_KEY);
+        }
     }
 
-    public static CookListFragment newInstance(String param1, String param2) {
+    public static CookListFragment newInstance(CategoryInfoBean categoryInfoBean) {
         CookListFragment fragment = new CookListFragment();
         Bundle args = new Bundle();
+        args.putSerializable(Constant.CATEGORY_INFO_BEAN_KEY, categoryInfoBean);
         fragment.setArguments(args);
         return fragment;
     }
@@ -37,7 +57,7 @@ public class CookListFragment extends BaseFragment {
 
     @Override
     public void initPresenter() {
-
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -47,11 +67,48 @@ public class CookListFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        cookListAdapter = new CookListAdapter(R.layout.cook_item, cookInfoList);
+        cookListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+        cookListAdapter.isFirstOnly(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(cookListAdapter);
 
+        recyclerView.addItemDecoration(new MyDecoration(mContext, MyDecoration.VERTICAL_LIST));
     }
 
     @Override
     public void initData() {
+        mPresenter.getCoolInfo(categoryInfoBean.getCtgId(), 1);
+    }
 
+    @Override
+    public void onSuccess(BaseBean baseBean) {
+        BaseBean<CookResult> successBaseBean = baseBean;
+        cookListAdapter.addData(successBaseBean.getResult().getList());
+        cookListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onError(String msg) {
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 }

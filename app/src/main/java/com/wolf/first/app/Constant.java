@@ -11,6 +11,7 @@ public class Constant {
      * mob app key
      */
     public static final String APP_KEY = "1e5a1ff5da673";
+    public static final int SIZE = 20;
     public static final String LOG_File = Environment.getExternalStorageDirectory() + "/first/log/";
     public static final String HEADER_File = Environment.getExternalStorageDirectory() + "/first/header/";
     public static final String LOG_NAME = "log.txt";
@@ -21,4 +22,5 @@ public class Constant {
     public static final String BASE_KEY = "BASE_KEY";
     public static final String ALL_LIST_KEY = "ALL_LIST_KEY";
     public static final String MY_LIST_KEY = "MY_LIST_KEY";
+    public static final String CATEGORY_INFO_BEAN_KEY = "CATEGORY_INFO_BEAN_KEY";
 }
