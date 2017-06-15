@@ -29,6 +29,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     CircleProgressBar lineProgress;
     private Integer proMax = 5;
     private BaseBean<CategoryBean> baseBean;
+    private boolean isLoad = true;
 
     @Override
     public int getLayoutId() {
@@ -37,9 +38,8 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
 
     @Override
     public void initView() {
-        lineProgress.setClickable(false);
         lineProgress.setProgress(100);
-        lineProgress.setProgressTextFormatPattern(proMax+"");
+        lineProgress.setProgressTextFormatPattern(proMax + "");
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
@@ -73,7 +73,10 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
         lineProgress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toMenu();
+                if (!isLoad) {
+                    toMenu();
+                }
+
             }
         });
     }
@@ -89,7 +92,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     }
 
     private void toMenu() {
-        MenuActivity.startTest(SplashActivity.this,baseBean);
+        MenuActivity.startTest(SplashActivity.this, baseBean);
         finish();
     }
 
@@ -108,7 +111,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter, SplashModel> i
     @Override
     public void onSuccess(BaseBean baseBean) {
         this.baseBean = baseBean;
-        lineProgress.setClickable(true);
+        isLoad = false;
     }
 
     @Override
