@@ -1,5 +1,6 @@
 package com.wolf.first.ui.cook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +38,7 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
     private CategoryInfoBean categoryInfoBean;
     private CookListAdapter cookListAdapter;
     private List<CookInfo> cookInfoList = new ArrayList<CookInfo>();
+    private int page = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,18 +69,12 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
 
     @Override
     public void initView() {
-        cookListAdapter = new CookListAdapter(R.layout.cook_item, cookInfoList);
-        cookListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-        cookListAdapter.isFirstOnly(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(cookListAdapter);
-
-        recyclerView.addItemDecoration(new MyDecoration(mContext, MyDecoration.VERTICAL_LIST));
+        initRecyclerView();
     }
 
     @Override
     public void initData() {
-        mPresenter.getCoolInfo(categoryInfoBean.getCtgId(), 1);
+        mPresenter.getCoolInfo(categoryInfoBean.getCtgId(), page);
     }
 
     @Override
@@ -86,6 +82,7 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
         BaseBean<CookResult> successBaseBean = baseBean;
         cookListAdapter.addData(successBaseBean.getResult().getList());
         cookListAdapter.notifyDataSetChanged();
+        cookListAdapter.loadMoreComplete();
     }
 
     @Override
@@ -96,6 +93,32 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
     @Override
     public void onError(String msg) {
 
+    }
+
+    private void initRecyclerView() {
+        cookListAdapter = new CookListAdapter(R.layout.cook_item, cookInfoList);
+        cookListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+        cookListAdapter.isFirstOnly(false);
+        cookListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                page = page + 1;
+                initData();
+            }
+        });
+        cookListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                Intent intent = new Intent(mContext, CookDetailActivity.class);
+                Bundle b = new Bundle();
+                b.putSerializable(Constant.COOK_INFO_KEY, cookInfoList.get(position));
+                intent.putExtras(b);
+                mContext.startActivity(intent);
+            }
+        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(cookListAdapter);
+        recyclerView.addItemDecoration(new MyDecoration(mContext, MyDecoration.VERTICAL_LIST));
     }
 
     @Override

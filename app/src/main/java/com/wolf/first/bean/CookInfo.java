@@ -1,12 +1,13 @@
 package com.wolf.first.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by W.J on 2017/6/14.
  */
 
-public class CookInfo {
+public class CookInfo implements Serializable{
 
     /**
      * ctgIds : ["0010001007","0010001015","0010001031"]
@@ -72,7 +73,7 @@ public class CookInfo {
         this.ctgIds = ctgIds;
     }
 
-    public static class RecipeBean {
+    public static class RecipeBean implements Serializable{
         /**
          * img : http://f2.mob.com/null/2015/08/19/1439945926624.jpg
          * ingredients : ["五花肉一斤半洗净切约2厘米见方的块，葱半两切段，老姜一块拍破，花椒二十余粒，八角四、五个粒，三奈四、五粒，冰糖半两，红烧酱油三大匙，盐适量，鲜汤约二斤。"]

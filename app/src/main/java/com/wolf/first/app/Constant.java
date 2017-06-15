@@ -23,4 +23,5 @@ public class Constant {
     public static final String ALL_LIST_KEY = "ALL_LIST_KEY";
     public static final String MY_LIST_KEY = "MY_LIST_KEY";
     public static final String CATEGORY_INFO_BEAN_KEY = "CATEGORY_INFO_BEAN_KEY";
+    public static final String COOK_INFO_KEY = "COOK_INFO_KEY";
 }

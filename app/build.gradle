@@ -40,6 +40,7 @@ dependencies {
 
 
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
+    // add library
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
     compile 'com.android.support:appcompat-v7:24.2.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -62,7 +63,7 @@ dependencies {
     compile 'com.trello.rxlifecycle2:rxlifecycle-components:2.1.0'
     compile 'com.android.support:support-v4:24.2.1'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.18'
-    testCompile 'junit:junit:4.12'
-    compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'org.greenrobot:greendao:3.2.2'
     compile 'com.idescout.sql:sqlscout-server:2.0'
+    testCompile 'junit:junit:4.12'
 }
