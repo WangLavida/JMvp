@@ -10,6 +10,7 @@
               android:paddingTop="5dp">
 
     <ImageView
+        android:transitionName="@string/image_view"
         android:scaleType="fitCenter"
         android:id="@+id/image_view"
         android:layout_width="90dp"
@@ -22,6 +23,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:transitionName="@string/name_text"
             android:id="@+id/name_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -1,8 +1,12 @@
 package com.wolf.first.ui.cook;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -21,7 +25,6 @@ import com.wolf.first.bean.CookResult;
 import com.wolf.first.contract.CookListContract;
 import com.wolf.first.model.CookListModel;
 import com.wolf.first.presenter.CookListPresenter;
-import com.wolf.first.util.MyLog;
 import com.wolf.first.view.MyDecoration;
 
 import java.util.ArrayList;
@@ -106,16 +109,7 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
                 initData();
             }
         });
-        cookListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Intent intent = new Intent(mContext, CookDetailActivity.class);
-                Bundle b = new Bundle();
-                b.putSerializable(Constant.COOK_INFO_KEY, cookInfoList.get(position));
-                intent.putExtras(b);
-                mContext.startActivity(intent);
-            }
-        });
+        cookListAdapter.setOnItemClickListener(cookListAdapter.getOnItemClickListener());
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(cookListAdapter);
         recyclerView.addItemDecoration(new MyDecoration(mContext, MyDecoration.VERTICAL_LIST));
