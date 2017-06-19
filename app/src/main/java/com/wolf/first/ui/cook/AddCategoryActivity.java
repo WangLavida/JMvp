@@ -5,11 +5,14 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
+import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.wolf.first.R;
 import com.wolf.first.adapter.CategoryAdapter;
 import com.wolf.first.app.Constant;
@@ -20,6 +23,7 @@ import com.wolf.first.contract.AddCategoryContract;
 import com.wolf.first.model.AddCategoryModel;
 import com.wolf.first.presenter.AddCategoryPresenter;
 import com.wolf.first.rxBus.RxBus;
+import com.wolf.first.util.MyLog;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -118,7 +122,7 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
         myAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                if (myList.get(position).getName().equals("荤菜")){
+                if (myList.get(position).getName().equals("荤菜")) {
                     return;
                 }
                 mPresenter.deleteCategory(myList.get(position));
@@ -127,6 +131,30 @@ public class AddCategoryActivity extends BaseActivity<AddCategoryPresenter, AddC
                 notifyDataSetChanged();
             }
         });
+
+        ItemDragAndSwipeCallback itemDragAndSwipeCallback = new ItemDragAndSwipeCallback(myAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemDragAndSwipeCallback);
+        itemTouchHelper.attachToRecyclerView(myRecyclerView);
+        // 开启拖拽
+        myAdapter.enableDragItem(itemTouchHelper, R.id.name_text, true);
+        myAdapter.setOnItemDragListener(new OnItemDragListener() {
+            @Override
+            public void onItemDragStart(RecyclerView.ViewHolder viewHolder, int pos) {
+
+            }
+
+            @Override
+            public void onItemDragMoving(RecyclerView.ViewHolder source, int from, RecyclerView.ViewHolder target, int to) {
+                MyLog.d(from + ";" + to);
+                mPresenter.moveCategory(from,myList.get(from),to,myList.get(to));
+            }
+
+            @Override
+            public void onItemDragEnd(RecyclerView.ViewHolder viewHolder, int pos) {
+
+            }
+        });
+
         myRecyclerView.setAdapter(myAdapter);
     }
 

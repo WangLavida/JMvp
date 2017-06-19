@@ -5,6 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseItemDraggableAdapter;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.wolf.first.R;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created by W.J on 2017/6/6.
  */
 
-public class CategoryAdapter extends BaseQuickAdapter<CategoryInfoBean, BaseViewHolder> {
+public class CategoryAdapter extends BaseItemDraggableAdapter<CategoryInfoBean, BaseViewHolder> {
     private int layoutResId;
     public CategoryAdapter(@LayoutRes int layoutResId, @Nullable List<CategoryInfoBean> data) {
         super(layoutResId, data);

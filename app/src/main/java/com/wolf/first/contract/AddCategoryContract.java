@@ -1,5 +1,7 @@
 package com.wolf.first.contract;
 
+import android.support.v7.widget.RecyclerView;
+
 import com.wolf.first.base.BaseModel;
 import com.wolf.first.base.BasePresenter;
 import com.wolf.first.base.BaseView;
@@ -19,6 +21,8 @@ public interface AddCategoryContract {
 
         Observable deleteCategory(CategoryInfoBean categoryInfoBean);
 
+        Observable MoveCategory(int from, CategoryInfoBean formCategoryInfoBean, int to, CategoryInfoBean toCategoryInfoBean);
+
     }
 
 
@@ -28,7 +32,10 @@ public interface AddCategoryContract {
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void saveCategory(CategoryInfoBean categoryInfoBean);
+
         public abstract void deleteCategory(CategoryInfoBean categoryInfoBean);
+
+        public abstract void moveCategory(int from, CategoryInfoBean formCategoryInfoBean, int to, CategoryInfoBean toCategoryInfoBean);
 
     }
 }

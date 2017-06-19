@@ -27,6 +27,7 @@ import com.wolf.first.util.ViewUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -36,6 +37,7 @@ import butterknife.OnClick;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 
+import static android.R.attr.name;
 import static android.R.attr.y;
 
 
@@ -153,25 +155,30 @@ public class CookFragment extends BaseFragment<CookPresenter, CookModel> impleme
         RxBus.getInstance().register(CategoryEvent.class).subscribe(new Consumer<CategoryEvent>() {
             @Override
             public void accept(@NonNull CategoryEvent categoryEvent) throws Exception {
-                MyLog.d(categoryEvent.getCategoryInfoBean().getName());
-                String name = categoryEvent.getCategoryInfoBean().getName();
+
                 switch (categoryEvent.getEvent()) {
                     case CategoryEvent.ADD_EVENT:
+                        String name = categoryEvent.getCategoryInfoBean().getName();
                         myFragmentPagerAdapter.addItem(newFragment(categoryEvent.getCategoryInfoBean()), name);
                         myList.add(categoryEvent.getCategoryInfoBean());
                         break;
                     case CategoryEvent.DEL_EVENT:
+                        String name1 = categoryEvent.getCategoryInfoBean().getName();
                         viewPager.setCurrentItem(0);
-                        myFragmentPagerAdapter.delItem(name);
+                        myFragmentPagerAdapter.delItem(name1);
                         Iterator<CategoryInfoBean> it = myList.iterator();
                         while (it.hasNext()) {
                             CategoryInfoBean categoryInfoBean = it.next();
-                            if (categoryInfoBean.getName().equals(name)) {
+                            if (categoryInfoBean.getName().equals(name1)) {
                                 it.remove();
                             }
                         }
                         break;
                     case CategoryEvent.MOVE_EVENT:
+                        myFragmentPagerAdapter.swapItems(categoryEvent.getFrom(), categoryEvent
+                                .getTo());
+                        Collections.swap(myList, categoryEvent.getFrom(), categoryEvent
+                                .getTo());
                         break;
                 }
                 ViewUtils.dynamicSetTabLayoutMode(tabLayout, mContext);

@@ -43,6 +43,17 @@ public class AddCategoryModel implements AddCategoryContract.Model {
         return observable;
     }
 
+    @Override
+    public Observable MoveCategory(int from, CategoryInfoBean formCategoryInfoBean, int to, CategoryInfoBean toCategoryInfoBean) {
+        Observable observable = Observable.create(new ObservableOnSubscribe<Boolean>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Boolean> e) throws Exception {
+                e.onComplete();
+            }
+        });
+        return observable;
+    }
+
 
     private CategoryInfoBeanDao getDao() {
         return EntityManager.getInstance().getCategoryInfoBeanDao();

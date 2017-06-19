@@ -15,6 +15,24 @@ public class CategoryEvent {
     public static final int MOVE_EVENT = 3;
     public CategoryInfoBean categoryInfoBean;
     public int event;
+    public int to;
+    public int from;
+
+    public int getTo() {
+        return to;
+    }
+
+    public void setTo(int to) {
+        this.to = to;
+    }
+
+    public int getFrom() {
+        return from;
+    }
+
+    public void setFrom(int from) {
+        this.from = from;
+    }
 
     public CategoryInfoBean getCategoryInfoBean() {
         return categoryInfoBean;
@@ -35,5 +53,11 @@ public class CategoryEvent {
     public CategoryEvent(int event, CategoryInfoBean categoryInfoBean) {
         this.categoryInfoBean = categoryInfoBean;
         this.event = event;
+    }
+
+    public CategoryEvent(int event, int from, int to) {
+        this.event = event;
+        this.from = from;
+        this.to = to;
     }
 }

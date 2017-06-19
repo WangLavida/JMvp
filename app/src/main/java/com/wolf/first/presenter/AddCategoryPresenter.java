@@ -38,7 +38,7 @@ public class AddCategoryPresenter extends AddCategoryContract.Presenter {
             public void onComplete() {
                 CategoryEvent categoryEvent = new CategoryEvent(CategoryEvent.ADD_EVENT, categoryInfoBean);
                 RxBus rxBus = RxBus.getInstance();
-                if(rxBus.hasSubscribers()){
+                if (rxBus.hasSubscribers()) {
                     rxBus.post(categoryEvent);
                 }
             }
@@ -67,7 +67,36 @@ public class AddCategoryPresenter extends AddCategoryContract.Presenter {
             public void onComplete() {
                 CategoryEvent categoryEvent = new CategoryEvent(CategoryEvent.DEL_EVENT, categoryInfoBean);
                 RxBus rxBus = RxBus.getInstance();
-                if(rxBus.hasSubscribers()){
+                if (rxBus.hasSubscribers()) {
+                    rxBus.post(categoryEvent);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void moveCategory(final int from, CategoryInfoBean fromCategoryInfoBean, final int to, CategoryInfoBean toCategoryInfoBean) {
+        mModel.MoveCategory(from, fromCategoryInfoBean, to, toCategoryInfoBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(@NonNull Object o) {
+
+            }
+
+            @Override
+            public void onError(@NonNull Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+                CategoryEvent categoryEvent = new CategoryEvent(CategoryEvent.MOVE_EVENT, from, to);
+                RxBus rxBus = RxBus.getInstance();
+                if (rxBus.hasSubscribers()) {
                     rxBus.post(categoryEvent);
                 }
             }
