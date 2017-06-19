@@ -60,9 +60,13 @@ public class CookDetailActivity extends BaseActivity {
         }
         ImageUtil.loadImage(mContext, imageView, cookInfo.getRecipe().getImg(), R.mipmap.cook_error_icon, R.mipmap.cook_error_icon, R.mipmap.cook_error_icon, false);
         titleText.setText(cookInfo.getRecipe().getTitle());
-        String ingredientsStr = cookInfo.getRecipe().getIngredients();
-        ingredientsStr = ingredientsStr.substring(2, ingredientsStr.length() - 2);
-        ingredients.setText("准备：\n" + ingredientsStr);
+        if (cookInfo.getRecipe().getIngredients() == null) {
+            cookInfo.getRecipe().setIngredients("");
+        } else {
+            String ingredientsStr = cookInfo.getRecipe().getIngredients();
+            ingredientsStr = ingredientsStr.substring(2, ingredientsStr.length() - 2);
+            ingredients.setText("准备：\n" + ingredientsStr);
+        }
         Gson gson = new Gson();
         List<Map<String, String>> methodList = gson.fromJson(cookInfo.getRecipe().getMethod(), List.class);
         for (int i = 0; i < methodList.size(); i++) {
