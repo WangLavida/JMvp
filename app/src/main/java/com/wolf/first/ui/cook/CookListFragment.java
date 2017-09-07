@@ -83,7 +83,7 @@ public class CookListFragment extends BaseFragment<CookListPresenter, CookListMo
     @Override
     public void onSuccess(BaseBean baseBean) {
         BaseBean<CookResult> successBaseBean = baseBean;
-        cookListAdapter.addData(successBaseBean.getResult().getList());
+        cookListAdapter.addData(successBaseBean.getResult().getList(  ));
         cookListAdapter.notifyDataSetChanged();
         cookListAdapter.loadMoreComplete();
     }
